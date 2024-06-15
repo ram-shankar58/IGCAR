@@ -1,8 +1,7 @@
 import React from 'react';
 import "./App.css";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Login from './Pages/Auth/Login';
-import Register from './Pages/Auth/Register';
+import Login from './pages/Login';
 // App.js
 import 'bootstrap/dist/css/bootstrap.min.css';
 
