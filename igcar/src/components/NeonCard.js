@@ -19,6 +19,8 @@ const pulse = keyframes`
   }
 `;
 
+
+
 /// ... other imports remain unchanged
 const NeonCard = styled(Card)(({ theme }) => ({
     backgroundColor: '#f5f5f5', // Light grey background
