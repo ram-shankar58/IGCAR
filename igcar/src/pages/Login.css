@@ -1,0 +1,32 @@
+/* Login.css */
+.light-box {
+    background: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.light-text {
+    color: #333333;
+}
+
+.light-input .MuiInputBase-input {
+    color: #333333;
+}
+
+.light-input .MuiInputLabel-root {
+    color: #4caf50;
+}
+
+.light-input .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+        border-color: #4caf50;
+    }
+}
+
+.light-link {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.light-link:hover {
+    text-decoration: underline;
+}

@@ -23,7 +23,7 @@ const pulse = keyframes`
 
 /// ... other imports remain unchanged
 const NeonCard = styled(Card)(({ theme }) => ({
-    backgroundColor: '#f5f5f5', // Light grey background
+    backgroundColor: 'rgba(10,10,10,0.7)', // Light grey background
     backdropFilter: 'blur(10px)', // Blur effect for the background
     color: '#fff', // Light text color for contrast
     boxShadow: '0 0 5px #9d00ff, 0 0 25px #9d00ff, 0 0 50px #9d00ff, 0 0 100px #9d00ff', // Neon glow effect
