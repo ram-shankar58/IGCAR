@@ -16,7 +16,7 @@ const Header = () => {
     <AppBar position="static" sx={{ backgroundColor: '#fff' }}> {/* AppBar background color */}
       <Toolbar>
         <img src={require("../static/igcar.jpeg")} alt="Logo" style={{ height: '60px', marginRight: '10px' }} /> {/* Logo image */}
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'purple', size: '5 em'}}> {/* Text color */}
+        <Typography variant="h6" component="div" style={{fontSize:'250%'}} sx={{ flexGrow: 1, color: 'purple'}}> {/* Text color */}
           Indira Gandhi Centre of Atomic Research
         </Typography>
         {isLoggedIn ? (

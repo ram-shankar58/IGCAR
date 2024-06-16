@@ -5,7 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { loginAPI } from '../utils/APIRequest';
 import 'react-toastify/dist/ReactToastify.css';
-import './Login.css'; // Import custom CSS for light theme
+import './Login.css'; // Import custom CSS for complex effects
+import Header from '../components/Header';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -56,10 +57,12 @@ const Login = () => {
     };
 
     return (
-        <Box sx={{ position: 'relative', overflow: 'hidden', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+        <>
+        <Header />
+        <Box className="background-container">
             <Container maxWidth="sm" sx={{ mt: 8 }}>
-                <Box className="light-box" sx={{ p: 4, borderRadius: 2 }}>
-                    <Typography variant="h4" component="h1" gutterBottom className="light-text">
+                <Box className="complex-box">
+                    <Typography variant="h4" component="h1" gutterBottom className="complex-text">
                         Login
                     </Typography>
                     <form onSubmit={handleSubmit}>
@@ -71,7 +74,7 @@ const Login = () => {
                             type="email"
                             onChange={handleChange}
                             value={values.email}
-                            className="light-input"
+                            className="complex-input"
                         />
                         <TextField
                             fullWidth
@@ -81,26 +84,27 @@ const Login = () => {
                             type="password"
                             onChange={handleChange}
                             value={values.password}
-                            className="light-input"
+                            className="complex-input"
                         />
                         <Button
                             fullWidth
                             type="submit"
                             variant="contained"
                             color="primary"
-                            sx={{ mt: 3, bgcolor: '#4caf50', '&:hover': { bgcolor: '#66bb6a' } }}
+                            sx={{ mt: 3 }}
                             disabled={loading}
+                            className="complex-button"
                         >
                             {loading ? 'Signing in…' : 'Login'}
                         </Button>
                         <Box sx={{ mt: 2 }}>
-                            <Link to="/forgotPassword" className="light-link">
+                            <Link to="/forgotPassword" className="complex-link">
                                 Forgot Password?
                             </Link>
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             Don't Have an Account?{' '}
-                            <Link to="/register" className="light-link">
+                            <Link to="/register" className="complex-link">
                                 Register
                             </Link>
                         </Box>
@@ -109,6 +113,7 @@ const Login = () => {
             </Container>
             <ToastContainer />
         </Box>
+        </>
     );
 };
 

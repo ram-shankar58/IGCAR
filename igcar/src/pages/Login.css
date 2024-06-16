@@ -1,32 +1,106 @@
 /* Login.css */
-.light-box {
-    background: #ffffff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
+.background-container {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.light-text {
-    color: #333333;
+.background-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    animation: rotate-bg 6s linear infinite;
 }
 
-.light-input .MuiInputBase-input {
-    color: #333333;
-}
-
-.light-input .MuiInputLabel-root {
-    color: #4caf50;
-}
-
-.light-input .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-        border-color: #4caf50;
+@keyframes rotate-bg {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }
 
-.light-link {
-    color: #4caf50;
-    text-decoration: none;
+.complex-box {
+    position: relative;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.light-link:hover {
-    text-decoration: underline;
+.complex-box::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.complex-box::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.complex-text {
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.complex-input .MuiInputBase-input {
+    color: #333;
+}
+
+.complex-input .MuiInputLabel-root {
+    color: #ff6f61;
+}
+
+.complex-input .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+        border-color: #ff6f61;
+    }
+}
+
+.complex-button {
+    background: linear-gradient(135deg, #ff6f61, #d6336c);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(255, 111, 97, 0.4);
+    &:hover {
+        background: linear-gradient(135deg, #d6336c, #ff6f61);
+        box-shadow: 0 5px 15px rgba(255, 111, 97, 0.6);
+    }
+}
+
+.complex-link {
+    color: #ff6f61;
+    text-decoration: none;
+    font-weight: 500;
+    &:hover {
+        text-decoration: underline;
+    }
 }
