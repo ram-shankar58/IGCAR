@@ -1,0 +1,27 @@
+/* Home.css */
+.home-background {
+    background: #f0f4f7;
+    min-height: 100vh;
+  }
+  
+  .colorful-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .colorful-card h2 {
+    color: #333;
+  }
+  
+  .quick-link {
+    display: block;
+    margin: 10px 0;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .quick-link:hover {
+    text-decoration: underline;
+  }
+  
