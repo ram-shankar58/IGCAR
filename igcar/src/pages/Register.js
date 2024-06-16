@@ -3,7 +3,8 @@ import { Container, Box, TextField, Button, Typography, Card } from '@mui/materi
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import ParticlesBg from 'particles-bg';
-
+import NeonCard from '../components/NeonCard';
+import Header from '../components/Header';
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
   borderRadius: theme.shape.borderRadius,
@@ -15,6 +16,7 @@ const DarkNeonBox = styled(Box)(({ theme }) => ({
   '& *':{ //note theres a space!
     //all child elements included in, DONT CHANGE
     color: 'white !important',
+    
   },
 }));
 
@@ -63,13 +65,16 @@ const Register = () => {
     // Perform registration logic here
     console.log(values);
   };
-                  return (
-                    <DarkNeonBox>
-                      <ParticlesBg type="cobweb" bg={true} color="#ffffff" num={50} />
-                      <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Card elevation={6} sx={{ bgcolor: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(10px)' }}>
-                          <Box sx={{ p: 4 }}>
-                            <Typography variant="h4" component="h1" gutterBottom>
+  return (
+    <>
+    <Header />
+
+    <DarkNeonBox>
+      <ParticlesBg type="cobweb" bg={true} color="#ffffff" num={50} />
+      <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <NeonCard elevation={6} sx={{ bgcolor: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(10px)' }}> {/* Use NeonCard here */}
+          <Box sx={{ p: 4 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
                             Register
                           </Typography>
                           <form onSubmit={handleSubmit}>
@@ -97,6 +102,7 @@ const Register = () => {
                 variant="contained"
                 color="secondary"
                 sx={{ mt: 3 }}
+                style={{color:'white'}}
               >
                 Sign Up
               </Button>
@@ -108,9 +114,10 @@ const Register = () => {
               </Typography>
             </form>
             </Box>
-        </Card>
+        </NeonCard>
       </Container>
     </DarkNeonBox>
+    </>
   );
 };
 
