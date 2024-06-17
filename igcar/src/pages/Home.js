@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, Link as MuiLink } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Box, Typography, Grid, Card, CardContent, Link as MuiLink } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Header from '../components/Header';
 import './Home.css'; // Import custom CSS for additional styling
@@ -16,6 +16,52 @@ const data = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      event.preventDefault();
+      const confirmResubmission = window.confirm("Confirm resubmission of data?");
+      if (confirmResubmission) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    let timeout;
+
+    const resetTimeout = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }, 10 * 60 * 1000); // 10 minutes
+    };
+
+    const handleActivity = () => {
+      resetTimeout();
+    };
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+
+    resetTimeout(); // Initialize the timeout
+
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+    };
+  }, [navigate]);
+
   return (
     <>
       <Header />
@@ -74,6 +120,12 @@ const Home = () => {
                 </MuiLink>
                 <MuiLink component={Link} to="/reports" className="quick-link">
                   View Reports
+                </MuiLink>
+                <MuiLink component={Link} to="/notifications" className="quick-link">
+                  Notifications
+                </MuiLink>
+                <MuiLink component={Link} to="/analytics" className="quick-link">
+                  Analytics
                 </MuiLink>
               </CardContent>
             </Card>
