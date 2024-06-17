@@ -28,10 +28,21 @@ const Home = () => {
       }
     };
 
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ''; // This line triggers the browser's confirmation dialog
+      setTimeout(() => {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }, 0); // Log out immediately after the dialog is confirmed
+    };
+
     window.addEventListener('popstate', handlePopState);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
       window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [navigate]);
 
