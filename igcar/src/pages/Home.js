@@ -3,7 +3,7 @@ import { Box, Typography, Grid, Card, CardContent, Link as MuiLink } from '@mui/
 import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Header from '../components/Header';
-import './Home.css'; // Import custom CSS for additional styling
+import './Home.css'; 
 
 const data = [
   { name: 'Jan', uv: 400, pv: 2400, amt: 2400 },
@@ -30,11 +30,11 @@ const Home = () => {
 
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      event.returnValue = ''; // This line triggers the browser's confirmation dialog
+      event.returnValue = ''; 
       setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
-      }, 0); // Log out immediately after the dialog is confirmed
+      }, 0); 
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -54,7 +54,7 @@ const Home = () => {
       timeout = setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
-      }, 10 * 60 * 1000); // 10 minutes
+      }, 10 * 60 * 1000); 
     };
 
     const handleActivity = () => {
@@ -64,7 +64,7 @@ const Home = () => {
     window.addEventListener('mousemove', handleActivity);
     window.addEventListener('keydown', handleActivity);
 
-    resetTimeout(); // Initialize the timeout
+    resetTimeout(); 
 
     return () => {
       clearTimeout(timeout);
