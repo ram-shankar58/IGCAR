@@ -85,7 +85,7 @@ const Home = () => {
             <Card className="colorful-card">
               <CardContent>
                 <Typography variant="h5" component="h2" gutterBottom>
-                  Sales Overview
+                  Journal Publications Overview
                 </Typography>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={data}>
