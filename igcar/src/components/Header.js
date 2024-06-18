@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('user'); // Assuming 'user' is the key in local storage
+  const isLoggedIn = localStorage.getItem('user'); //USER IS key
 
   const handleLogout = () => {
-    localStorage.removeItem('user'); // Remove 'user' from local storage
-    // Set user hook to false here if you have one
-    navigate('/login'); // Redirect to login page
+    localStorage.removeItem('user'); 
+    navigate('/login'); 
   };
 
   return (
