@@ -65,6 +65,13 @@ const Login = () => {
             setLoading(false);
         }
     };
+    // const particlesInit = useCallback(async (engine) => {  PARTICLES NOT COMPATIBLE
+    //     await loadFull(engine);
+    // }, []);
+
+    // const particlesLoaded = useCallback(async (container) => {
+    //     await console.log(container);
+    // }, []);
 
     return (
         <>
