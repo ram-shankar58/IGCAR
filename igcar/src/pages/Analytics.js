@@ -11,7 +11,7 @@ const Analytics = () => {
           Analytics
         </Typography>
         <Typography variant="body1">
-          This is the analytics page. Here you will see various analytics data.
+          This is the analytics page. 
         </Typography>
       </Box>
     </>
