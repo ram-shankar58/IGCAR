@@ -1,9 +1,7 @@
-// NeonCard.js
 import React from 'react';
 import { Card } from '@mui/material';
 import styled, { keyframes } from 'styled-components';
 
-// Define the pulse animation using keyframes
 const pulse = keyframes`
   0% {
     transform: scale(1);
@@ -21,20 +19,18 @@ const pulse = keyframes`
 
 
 
-/// ... other imports remain unchanged
 const NeonCard = styled(Card)(({ theme }) => ({
-    backgroundColor: 'rgba(10,10,10,0.7)', // Light grey background
-    backdropFilter: 'blur(10px)', // Blur effect for the background
-    color: '#fff', // Light text color for contrast
-    boxShadow: '0 0 5px #9d00ff, 0 0 25px #9d00ff, 0 0 50px #9d00ff, 0 0 100px #9d00ff', // Neon glow effect
+    backgroundColor: 'rgba(10,10,10,0.7)', 
+    backdropFilter: 'blur(10px)', 
+    color: '#fff',
+    boxShadow: '0 0 5px #9d00ff, 0 0 25px #9d00ff, 0 0 50px #9d00ff, 0 0 100px #9d00ff', 
     '&:hover': {
-      boxShadow: '0 0 15px #9d00ff, 0 0 35px #9d00ff, 0 0 75px #9d00ff, 0 0 125px #9d00ff', // Enhanced glow on hover
-      transform: 'scale(1.05)', // Slightly enlarge on hover
-      transition: 'transform .2s ease-in-out, box-shadow .2s ease-in-out', // Smooth transition for hover effects
+      boxShadow: '0 0 15px #9d00ff, 0 0 35px #9d00ff, 0 0 75px #9d00ff, 0 0 125px #9d00ff', 
+      transform: 'scale(1.05)',
+      transition: 'transform .2s ease-in-out, box-shadow .2s ease-in-out', 
     },
   }));
   
-  // ... rest of your Register component remains unchanged
   
   export default NeonCard;
   
