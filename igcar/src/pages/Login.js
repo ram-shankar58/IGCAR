@@ -11,6 +11,9 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+      /*if (sessionStorage.getItem("user")) {
+            navigate("/");
+        }*/
         if (localStorage.getItem("user")) {
             navigate("/");
         }
@@ -43,6 +46,8 @@ const Login = () => {
         setLoading(true);
 
         try {
+            //sessionStorage.setItem("user", JSON.stringify(data.user));
+
             const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
             const user = registeredUsers.find(user => user.email === email && user.password === password);
 
