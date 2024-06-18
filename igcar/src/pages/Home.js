@@ -148,13 +148,13 @@ const Home = () => {
                   Recent Activities
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - User JohnDoe signed up
+                  - New building constructedd
                 </Typography>
                 <Typography variant="body2" component="p">
                   - New order received
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - System update completed
+                  - Softare maintainance completed
                 </Typography>
               </CardContent>
             </Card>
@@ -169,10 +169,10 @@ const Home = () => {
                   - You have 3 new messages
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - Server downtime scheduled at 3:00 AM
+                  - Meeting scheduled at 3 pm
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - Your password will expire in 5 days
+                  - Interview in 2 weeks
                 </Typography>
               </CardContent>
             </Card>
