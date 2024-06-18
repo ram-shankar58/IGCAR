@@ -92,7 +92,14 @@ const Register = () => {
       toast.error("An error occurred. Please try again.", toastOptions);
     }
   };
+// const particlesInit = useCallback(async (engine) => {
+//         await loadFull(engine);
+//     }, []);
 
+//     const particlesLoaded = useCallback(async (container) => {
+//         await console.log(container);
+//     }, []);
+  //PARTICLES giving runt ime error
   return (
     <>
       <Header />
