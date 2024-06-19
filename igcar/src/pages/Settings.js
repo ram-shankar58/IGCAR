@@ -1,17 +1,40 @@
-// src/pages/Settings.js
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Card, CardContent, Switch, FormGroup, FormControlLabel } from '@mui/material';
 import Layout from '../components/Layout';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Settings = () => {
+  const handleChange = (event) => {
+    // Handle switch toggle logic
+  };
+
   return (
     <Layout>
-      <Box sx={{ padding: '2rem' }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Header />
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h3" gutterBottom>
           Account Settings
         </Typography>
-        {/* Add content and functionality for settings here */}
+        <Card>
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              Preferences
+            </Typography>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={true} onChange={handleChange} />}
+                label="Receive email notifications"
+              />
+              <FormControlLabel
+                control={<Switch checked={false} onChange={handleChange} />}
+                label="Enable two-factor authentication"
+              />
+            </FormGroup>
+          </CardContent>
+        </Card>
       </Box>
+      <Footer />
     </Layout>
   );
 };
