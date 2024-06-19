@@ -1,10 +1,16 @@
+/* src/components/Layout.css */
 .layout-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-.layout-content {
-    flex: 1;
-    padding: 2rem;
-}
+  }
+  
+  .layout-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .footer {
+    margin-top: auto;
+  }
+  

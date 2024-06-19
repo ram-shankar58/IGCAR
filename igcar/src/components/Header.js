@@ -1,32 +1,26 @@
+// src/components/Header.js
 import React from 'react';
-import { Button, AppBar, Toolbar, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import './Header.css';
+
+const handleLogout= ()=>{
+  localStorage.removeItem("user");
+}
 
 const Header = () => {
-  const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('user'); //USER IS key
-
-  const handleLogout = () => {
-    localStorage.removeItem('user'); 
-    navigate('/login'); 
-  };
-
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#fff' }}> {/* AppBar background color */}
+    <AppBar position="static" className="header">
       <Toolbar>
-        <img src={require("../static/igcar.jpeg")} alt="Logo" style={{ height: '60px', marginRight: '10px' }} /> {/* Logo image */}
-        <Typography variant="h6" component="div" style={{fontSize:'250%'}} sx={{ flexGrow: 1, color: 'purple'}}> {/* Text color */}
-          Indira Gandhi Centre of Atomic Research
+        <Typography variant="h6" className="title">
+          MyApp
         </Typography>
-        {isLoggedIn ? (
-          <Button color="inherit" onClick={handleLogout} sx={{ backgroundColor: '#007bff', color: '#fff' }}> {/* Button colors */}
-            Logout
-          </Button>
-        ) : (
-          <Button color="inherit" onClick={() => navigate('/login')} sx={{ backgroundColor: '#007bff', color: '#fff' }}> {/* Button colors */}
-            Login
-          </Button>
-        )}
+        <Button color="inherit" component={Link} to="/">Home</Button>
+        <Button color="inherit" component={Link} to="/profile">Profile</Button>
+        <Button color="inherit" component={Link} to="/settings">Settings</Button>
+        <Button color="inherit" component={Link} to="/notifications">Notifications</Button>
+        <Button color="inherit" component={Link} to="/analytics">Analytics</Button>
+        <Button color="inherit" onClick={handleLogout} component={Link} to="/login">Logout</Button>
       </Toolbar>
     </AppBar>
   );

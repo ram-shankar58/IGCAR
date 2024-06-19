@@ -1,16 +1,18 @@
+// src/pages/Settings.js
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import Header from '../components/Header';
+import Layout from '../components/Layout';
 
 const Settings = () => {
   return (
-    <>
-      <Header />
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h4">Settings Page</Typography>
-        <Typography variant="body1">This is the settings page.</Typography>
+    <Layout>
+      <Box sx={{ padding: '2rem' }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Account Settings
+        </Typography>
+        {/* Add content and functionality for settings here */}
       </Box>
-    </>
+    </Layout>
   );
 };
 

@@ -21,28 +21,22 @@ const Home = () => {
   useEffect(() => {
     const handlePopState = (event) => {
       event.preventDefault();
-      const confirmResubmission = window.confirm("Confirm resubmission of data?");
+      const confirmResubmission = window.confirm("Are you sure you want to log out and go back?");
       if (confirmResubmission) {
         localStorage.removeItem('user');
         navigate('/login');
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
       }
     };
 
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      event.returnValue = '';
-      setTimeout(() => {
-        localStorage.removeItem('user');
-        navigate('/login');
-      }, 0);
-    };
+    // This line ensures the current state is pushed to history to capture the initial load state.
+    window.history.pushState(null, null, window.location.pathname);
 
     window.addEventListener('popstate', handlePopState);
-    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
       window.removeEventListener('popstate', handlePopState);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [navigate]);
 
@@ -54,7 +48,7 @@ const Home = () => {
       timeout = setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
-      }, 10 * 60 * 1000);
+      }, 10 * 60 * 1000); // 10 minutes
     };
 
     const handleActivity = () => {
