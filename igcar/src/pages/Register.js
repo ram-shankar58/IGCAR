@@ -1,167 +1,98 @@
+// src/pages/Register.js
 import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ParticlesBg from 'particles-bg';
-import NeonCard from '../components/NeonCard';
-import Header from '../components/Header';
-
-const DarkNeonBox = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: '0 0 5px #9d00ff, 0 0 25px #9d00ff, 0 0 50px #9d00ff, 0 0 100px #9d00ff',
-  color: 'white',
-  padding: theme.spacing(3),
-  position: 'relative',
-  overflow: 'hidden',
-  '& *': { 
-    color: 'white !important',
-  },
-}));
-
-const NeonTextField = styled(TextField)(({ theme }) => ({
-  '& label.Mui-focused': {
-    color: '#9d00ff',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#9d00ff',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#9d00ff',
-    },
-    '&:hover fieldset': {
-      borderColor: '#9d00ff',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#9d00ff',
-    },
-    '& input': {
-      color: 'white',
-    },
-  },
-}));
 
 const Register = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+  const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState({ name: '', email: '', password: '' });
 
-  const toastOptions = {
-    position: "bottom-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const { name, email, password } = values;
+    setLoading(true);
 
-    try {
-      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-      const userExists = registeredUsers.some(user => user.email === email);
-
-      if (userExists) {
-        toast.error("Email already registered", toastOptions);
-      } else {
-        const newUser = { name, email, password };
-        registeredUsers.push(newUser);
-        localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
-        toast.success("Registration successful!", toastOptions);
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error('Registration error:', error);
-      toast.error("An error occurred. Please try again.", toastOptions);
-    }
+    // Simulated registration logic
+    setTimeout(() => {
+      setLoading(false);
+      // Simulate successful registration
+      toast.success('Registration successful!');
+      navigate('/login'); // Redirect to login after successful registration
+    }, 1000); // Simulating API call with delay
   };
-// const particlesInit = useCallback(async (engine) => {
-//         await loadFull(engine);
-//     }, []);
 
-//     const particlesLoaded = useCallback(async (container) => {
-//         await console.log(container);
-//     }, []);
-  //PARTICLES giving runt ime error
   return (
-    <>
-      <Header />
-      <DarkNeonBox>
-        <ParticlesBg type="cobweb" bg={true} color="#ffffff" num={50} />
-        <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <NeonCard elevation={6} sx={{ bgcolor: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(10px)' }}>
-            <Box sx={{ p: 4 }}>
-              <Typography variant="h4" component="h1" gutterBottom>
-                Register
+    <Box className="background-container">
+      <Container maxWidth="sm" sx={{ mt: 8 }}>
+        <Box className="complex-box">
+          <Typography variant="h4" component="h1" gutterBottom className="complex-text">
+            Register
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Full Name"
+              name="name"
+              type="text"
+              onChange={handleChange}
+              value={values.name}
+              className="complex-input"
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email Address"
+              name="email"
+              type="email"
+              onChange={handleChange}
+              value={values.email}
+              className="complex-input"
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Password"
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={values.password}
+              className="complex-input"
+              required
+            />
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3 }}
+              disabled={loading}
+              className="complex-button"
+            >
+              {loading ? 'Registering…' : 'Register'}
+            </Button>
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body2" component="p">
+                Already have an account?{' '}
+                <Link to="/login" className="complex-link">
+                  Login
+                </Link>
               </Typography>
-              <form onSubmit={handleSubmit}>
-                <NeonTextField
-                  fullWidth
-                  margin="normal"
-                  label="Full Name"
-                  name="name"
-                  type="text"
-                  onChange={handleChange}
-                  value={values.name}
-                />
-                <NeonTextField
-                  fullWidth
-                  margin="normal"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  onChange={handleChange}
-                  value={values.email}
-                />
-                <NeonTextField
-                  fullWidth
-                  margin="normal"
-                  label="Password"
-                  name="password"
-                  type="password"
-                  onChange={handleChange}
-                  value={values.password}
-                />
-                <Button
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  color="secondary"
-                  sx={{ mt: 3 }}
-                  style={{ color: 'white' }}
-                >
-                  Sign Up
-                </Button>
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Already have an account?{' '}
-                  <Link to="/login" style={{ color: '#FF8E53' }}>
-                    Login here
-                  </Link>
-                </Typography>
-              </form>
             </Box>
-          </NeonCard>
-        </Container>
-      </DarkNeonBox>
+          </form>
+        </Box>
+      </Container>
       <ToastContainer />
-    </>
+    </Box>
   );
 };
 

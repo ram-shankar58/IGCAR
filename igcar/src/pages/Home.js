@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Box, Typography, Grid, Card, CardContent, Link as MuiLink } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import Header from '../components/Header';
-import './Home.css'; 
+import Layout from '../components/Layout';
+import './Home.css';
 
 const data = [
   { name: 'Jan', uv: 400, pv: 2400, amt: 2400 },
@@ -30,11 +30,11 @@ const Home = () => {
 
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      event.returnValue = ''; 
+      event.returnValue = '';
       setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
-      }, 0); 
+      }, 0);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -54,7 +54,7 @@ const Home = () => {
       timeout = setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
-      }, 10 * 60 * 1000); 
+      }, 10 * 60 * 1000);
     };
 
     const handleActivity = () => {
@@ -64,7 +64,7 @@ const Home = () => {
     window.addEventListener('mousemove', handleActivity);
     window.addEventListener('keydown', handleActivity);
 
-    resetTimeout(); 
+    resetTimeout();
 
     return () => {
       clearTimeout(timeout);
@@ -74,8 +74,7 @@ const Home = () => {
   }, [navigate]);
 
   return (
-    <>
-      <Header />
+    <Layout>
       <Box className="home-background" sx={{ padding: '2rem' }}>
         <Typography variant="h3" component="h1" gutterBottom>
           Welcome to the Dashboard
@@ -148,13 +147,13 @@ const Home = () => {
                   Recent Activities
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - New building constructedd
+                  - New building constructed
                 </Typography>
                 <Typography variant="body2" component="p">
                   - New order received
                 </Typography>
                 <Typography variant="body2" component="p">
-                  - Softare maintainance completed
+                  - Software maintenance completed
                 </Typography>
               </CardContent>
             </Card>
@@ -179,7 +178,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Layout>
   );
 };
 
