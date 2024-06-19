@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Typography, Grid, Card, CardContent, Link as MuiLink } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 import './Home.css';
 
 const data = [

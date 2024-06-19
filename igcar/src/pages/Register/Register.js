@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ParticlesBg from 'particles-bg';
-import NeonCard from '../components/NeonCard';
-import Header from '../components/Header';
+import NeonCard from '../../components/NeonCard';
+import Header from '../../components/Header';
 
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
