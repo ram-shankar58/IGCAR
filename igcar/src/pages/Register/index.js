@@ -8,6 +8,7 @@ import ParticlesBg from 'particles-bg';
 import NeonCard from '../../components/NeonCard';
 import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
+import argon2 from 'argon2';
 
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
@@ -72,7 +73,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { name, email, password, designation } = values;
 
@@ -83,7 +84,8 @@ const Register = () => {
       if (userExists) {
         toast.error("Email already registered", toastOptions);
       } else {
-        const newUser = { name, email, password, designation };
+        const hashedPassword = await argon2.hash(password);
+        const newUser = { name, email, password: hashedPassword, designation };
         registeredUsers.push(newUser);
         localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
         toast.success("Registration successful!", toastOptions);

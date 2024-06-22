@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; 
 import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
+import argon2 from "argon2";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Login = () => {
         theme: "light",
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { email, password } = values;
@@ -53,9 +54,14 @@ const Login = () => {
             const user = registeredUsers.find(user => user.email === email && user.password === password);
 
             if (user) {
-                localStorage.setItem("user", JSON.stringify(user));
-                navigate("/");
-                toast.success("Login successful!", toastOptions);
+                const pass= await argon2.verify(user.password, password);
+                
+                if(pass){
+                    localStorage.setItem("user", JSON.stringify(user));
+                    navigate("/");
+                    toast.success("Login successful!", toastOptions);
+                }
+                
             } else {
                 toast.error("Invalid email or password", toastOptions);
             }
