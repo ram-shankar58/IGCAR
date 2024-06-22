@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ParticlesBg from 'particles-bg';
 import NeonCard from '../../components/NeonCard';
 import Header from '../../components/Header';
+import InitialLayout from '../../layouts/InitialLayout';
 
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
@@ -50,6 +51,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
+    designation: '',
   });
 
   const toastOptions = {
@@ -72,7 +74,7 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { name, email, password } = values;
+    const { name, email, password, designation } = values;
 
     try {
       const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
@@ -81,7 +83,7 @@ const Register = () => {
       if (userExists) {
         toast.error("Email already registered", toastOptions);
       } else {
-        const newUser = { name, email, password };
+        const newUser = { name, email, password, designation };
         registeredUsers.push(newUser);
         localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
         toast.success("Registration successful!", toastOptions);
@@ -95,7 +97,8 @@ const Register = () => {
 
   return (
     <>
-      <Header />
+
+      <InitialLayout />
       <DarkNeonBox>
         <ParticlesBg type="cobweb" bg={true} color="#ffffff" num={50} />
         <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -131,6 +134,15 @@ const Register = () => {
                   type="password"
                   onChange={handleChange}
                   value={values.password}
+                />
+                <NeonTextField
+                  fullWidth
+                  margin="normal"
+                  label="Designation"
+                  name="designation"
+                  type="text"
+                  onChange={handleChange}
+                  value={values.designation}
                 />
                 <Button
                   fullWidth

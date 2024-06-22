@@ -1,27 +1,49 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home/Home';
-import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register';
-import Profile from '../pages/Profile/Profile';
-import Settings from '../pages/Settings/Settings';
-import Reports from '../pages/Reports/Reports';
-import Notifications from '../pages/Notifications/Notifications';
-import Analytics from '../pages/Analytics/Analytics';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import Home from '../pages/Home';
+import Profile from '../pages/Profile';
+import Settings from '../pages/Settings';
+import Reports from '../pages/Reports';
+import Notifications from '../pages/Notifications';
+import Analytics from '../pages/Analytics';
+import PermissionDenied from '../components/PermissionDenied'; // Create this page for permission restricted message
+import TimeoutHandler from '../components/TimeoutHandler'; // Import TimeoutHandler
+
+const ProtectedRoute = ({ children, allowedDesignations }) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  if (allowedDesignations && !allowedDesignations.includes(user.designation)) {
+    return <Navigate to="/permission-denied" />;
+  }
+
+  return children;
+};
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
+    <TimeoutHandler>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/reports" element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']} ><Reports /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+        <Route 
+          path="/analytics" 
+          element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics /></ProtectedRoute>} 
+        />
+        <Route path="/permission-denied" element={<PermissionDenied />} />
       </Routes>
+      </TimeoutHandler>
     </BrowserRouter>
   );
 };

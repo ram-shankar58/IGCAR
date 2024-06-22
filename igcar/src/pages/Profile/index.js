@@ -1,13 +1,12 @@
 import React from 'react';
 import { Box, Typography, Avatar, Grid, Paper } from '@mui/material';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/Layout';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const Profile = () => {
   return (
     <Layout>
-      <Header />
       <Box sx={{ p: 3 }}>
         <Typography variant="h3" gutterBottom>
           Profile
@@ -17,13 +16,13 @@ const Profile = () => {
             <Paper sx={{ p: 2 }}>
               <Avatar sx={{ width: 120, height: 120, mx: 'auto' }}>U</Avatar>
               <Typography variant="h6" align="center" gutterBottom>
-                John Doe
+                Ram Shankar
               </Typography>
               <Typography variant="body1" align="center">
-                Software Developer
+                Software Intern
               </Typography>
               <Typography variant="body2" align="center">
-                Joined: January 2023
+                Joined: June 2024
               </Typography>
             </Paper>
           </Grid>
@@ -33,13 +32,13 @@ const Profile = () => {
                 Personal Information
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Email: john.doe@example.com
+                Email: ramshankar@ramshankar.com
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Phone: +1 (123) 456-7890
+                Phone: +99 1234567890
               </Typography>
               <Typography variant="body1">
-                Address: 123 Main St, Cityville, State, Country
+                Address: 4, Central Ave, Kalpakkam
               </Typography>
             </Paper>
           </Grid>

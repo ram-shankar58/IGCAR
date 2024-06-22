@@ -1,13 +1,12 @@
 import React from 'react';
 import { Box, Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/Layout';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const Reports = () => {
   return (
     <Layout>
-      <Header />
       <Box sx={{ p: 3 }}>
         <Typography variant="h3" gutterBottom>
           View Reports
@@ -25,17 +24,17 @@ const Reports = () => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>Monthly Sales Report</TableCell>
+                    <TableCell>Research publication</TableCell>
                     <TableCell align="right">Completed</TableCell>
                     <TableCell align="right">July 1, 2024</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Customer Feedback Analysis</TableCell>
+                    <TableCell>Radiation Report</TableCell>
                     <TableCell align="right">In Progress</TableCell>
                     <TableCell align="right">July 15, 2024</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Website Traffic Overview</TableCell>
+                    <TableCell>Website Maintainance Overview</TableCell>
                     <TableCell align="right">Scheduled</TableCell>
                     <TableCell align="right">July 30, 2024</TableCell>
                   </TableRow>

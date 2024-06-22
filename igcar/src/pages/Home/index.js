@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Link as MuiLink } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Grid, Card, CardContent, Link as MuiLink, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/Layout';
+import { checkBackendConnection } from '../../utils/APIRequest'; // Import the function from APIRequest.js
 import './Home.css';
 
 const data = [
@@ -17,6 +18,7 @@ const data = [
 
 const Home = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handlePopState = (event) => {
@@ -30,7 +32,6 @@ const Home = () => {
       }
     };
 
-    // This line ensures the current state is pushed to history to capture the initial load state.
     window.history.pushState(null, null, window.location.pathname);
 
     window.addEventListener('popstate', handlePopState);
@@ -41,17 +42,23 @@ const Home = () => {
   }, [navigate]);
 
   useEffect(() => {
-    let timeout;
+    let timeout, warningTimeout;
 
     const resetTimeout = () => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        localStorage.removeItem('user');
-        navigate('/login');
-      }, 10 * 60 * 1000); // 10 minutes
+      clearTimeout(warningTimeout);
+
+      warningTimeout = setTimeout(() => {
+        setOpen(true);
+        timeout = setTimeout(() => {
+          localStorage.removeItem('user');
+          navigate('/login');
+        }, 5 * 60 * 1000); // 5 minutes after warning
+      }, 5 * 60 * 1000); // 5 minutes of inactivity
     };
 
     const handleActivity = () => {
+      setOpen(false);
       resetTimeout();
     };
 
@@ -62,9 +69,24 @@ const Home = () => {
 
     return () => {
       clearTimeout(timeout);
+      clearTimeout(warningTimeout);
       window.removeEventListener('mousemove', handleActivity);
       window.removeEventListener('keydown', handleActivity);
     };
+  }, [navigate]);
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      const isConnected = await checkBackendConnection();
+      if (!isConnected) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+    };
+
+    const interval = setInterval(checkConnection, 60 * 1000); // Check every 1 minute
+
+    return () => clearInterval(interval);
   }, [navigate]);
 
   return (
@@ -172,6 +194,25 @@ const Home = () => {
           </Grid>
         </Grid>
       </Box>
+
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Session Timeout Warning"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You have been inactive for 5 minutes. You will be logged out in another 5 minutes if no further activity is detected.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="primary" autoFocus>
+            Stay Logged In
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Layout>
   );
 };

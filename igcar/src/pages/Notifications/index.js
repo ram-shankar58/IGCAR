@@ -1,19 +1,18 @@
 import React from 'react';
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/Layout';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const Notifications = () => {
   return (
     <Layout>
-      <Header />
       <Box sx={{ p: 3 }}>
         <Typography variant="h3" gutterBottom>
           Notifications
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Stay informed with real-time updates about your account activities and important events.
+          Stay informed with real-time updates about your account activities and important events in IGCAR.
         </Typography>
         <List>
           <ListItem>

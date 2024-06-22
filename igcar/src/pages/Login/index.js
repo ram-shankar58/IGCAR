@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; 
 import Header from '../../components/Header';
+import InitialLayout from '../../layouts/InitialLayout';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -75,7 +76,7 @@ const Login = () => {
 
     return (
         <>
-            <Header />
+            <InitialLayout />
             <Box className="background-container">
                 <Container maxWidth="sm" sx={{ mt: 8 }}>
                     <Box className="complex-box">
