@@ -10,6 +10,7 @@ import Notifications from '../pages/Notifications';
 import Analytics from '../pages/Analytics';
 import PermissionDenied from '../components/PermissionDenied'; // Create this page for permission restricted message
 import TimeoutHandler from '../components/TimeoutHandler'; // Import TimeoutHandler
+import Meeting from '../pages/Meeting';
 
 const ProtectedRoute = ({ children, allowedDesignations }) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -41,6 +42,7 @@ const AppRoutes = () => {
           path="/analytics" 
           element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics /></ProtectedRoute>} 
         />
+        <Route path = "/meeting" element={<ProtectedRoute><Meeting /></ProtectedRoute>} />
         <Route path="/permission-denied" element={<PermissionDenied />} />
       </Routes>
       </TimeoutHandler>

@@ -20,6 +20,7 @@ const Header = () => {
           Indira Gandhi Centre of Atomic Research, Kalpakkam
         </Typography>
         <Button color="inherit" component={Link} to="/">Home</Button>
+        <Button color="inherit" component={Link} to="/meeting">Meeting</Button>
         <Button color="inherit" component={Link} to="/profile">Profile</Button>
         <Button color="inherit" component={Link} to="/settings">Settings</Button>
         <Button color="inherit" component={Link} to="/notifications">Notifications</Button>
