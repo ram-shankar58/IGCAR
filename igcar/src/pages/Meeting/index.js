@@ -25,11 +25,37 @@ const VideoContainer = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
+
+
 const Meeting = () => {
     const [stream, setStream] = useState(null);
     const [isCameraOn, setIsCameraOn] = useState(false);
     const [isMicOn, setIsMicOn] = useState(false);
     const videoRef = useRef(null);
+    const [hasPhoto, setHasPhoto]=useState(false);
+    const canvasRef=useRef(null);
+
+    const takePhoto = () =>{
+        const width=320;
+        const height=240;
+        let video=videoRef.current;
+        let canvas = canvasRef.current;
+        canvas.width=width;
+        canvas.height=height;
+        let context=canvas.getContext('2d');
+        context.drawImage(video, 0, 0, width, height);
+        setHasPhoto(true);
+    
+    };
+    
+    const savePhoto = () =>{
+        let canvas=canvasRef.current;
+        const image=canvas.toDataURL('image/png');
+        const link=document.createElement('a');
+        link.href=image;
+        link.download='photo.png';
+        link.click();
+    };
 
     useEffect(() => {
         if (isCameraOn) {
@@ -62,7 +88,7 @@ const Meeting = () => {
 
     return (
         <>
-            <Layout />
+            <Layout>
             <Container>
                 <Typography variant="h4" gutterBottom>
                     Meeting
@@ -77,9 +103,15 @@ const Meeting = () => {
                     <StyledButton onClick={handleMicToggle} disabled={!isCameraOn}>
                         {isMicOn ? 'Turn Microphone Off' : 'Turn Microphone On'}
                     </StyledButton>
+                    <StyledButton onClick={takePhoto}>Take Photo</StyledButton>
+                    <div className={'result'+(hasPhoto ? 'hasPhoto' : '')}>
+                        <canvas ref={canvasRef}></canvas>
+                        {hasPhoto && <button onClick={savePhoto}>Save Photo</button>}
+                    </div>
                 </Box>
                 <ToastContainer />
             </Container>
+            </Layout>
         </>
     );
 };
