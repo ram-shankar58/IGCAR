@@ -6,16 +6,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; 
 import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
-import argon2 from "argon2";
+import bcrypt from 'bcryptjs';
 
 const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-      /*if (sessionStorage.getItem("user")) {
-            navigate("/");
-        }*/
         if (localStorage.getItem("user")) {
             navigate("/");
         }
@@ -48,20 +45,13 @@ const Login = () => {
         setLoading(true);
 
         try {
-            //sessionStorage.setItem("user", JSON.stringify(data.user));
-
             const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-            const user = registeredUsers.find(user => user.email === email && user.password === password);
+            const user = registeredUsers.find(user => user.email === email);
 
-            if (user) {
-                const pass= await argon2.verify(user.password, password);
-                
-                if(pass){
-                    localStorage.setItem("user", JSON.stringify(user));
-                    navigate("/");
-                    toast.success("Login successful!", toastOptions);
-                }
-                
+            if (user && bcrypt.compareSync(password, user.password)) {
+                localStorage.setItem("user", JSON.stringify(user));
+                navigate("/");
+                toast.success("Login successful!", toastOptions);
             } else {
                 toast.error("Invalid email or password", toastOptions);
             }
@@ -72,13 +62,6 @@ const Login = () => {
             setLoading(false);
         }
     };
-    // const particlesInit = useCallback(async (engine) => {  PARTICLES NOT COMPATIBLE
-    //     await loadFull(engine);
-    // }, []);
-
-    // const particlesLoaded = useCallback(async (container) => {
-    //     await console.log(container);
-    // }, []);
 
     return (
         <>

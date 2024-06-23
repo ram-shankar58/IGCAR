@@ -8,7 +8,7 @@ import ParticlesBg from 'particles-bg';
 import NeonCard from '../../components/NeonCard';
 import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
-import argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
@@ -84,7 +84,7 @@ const Register = () => {
       if (userExists) {
         toast.error("Email already registered", toastOptions);
       } else {
-        const hashedPassword = await argon2.hash(password);
+        const hashedPassword = bcrypt.hashSync(password, 10);
         const newUser = { name, email, password: hashedPassword, designation };
         registeredUsers.push(newUser);
         localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
@@ -99,7 +99,6 @@ const Register = () => {
 
   return (
     <>
-
       <InitialLayout />
       <DarkNeonBox>
         <ParticlesBg type="cobweb" bg={true} color="#ffffff" num={50} />
