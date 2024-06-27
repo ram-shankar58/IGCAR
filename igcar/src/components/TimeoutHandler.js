@@ -1,64 +1,58 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { checkBackendConnection } from '../utils/APIRequest';
 
 const TimeoutHandler = ({ children }) => {
   const navigate = useNavigate();
-  const timeoutRef = useRef(null);
-  const warningRef = useRef(null);
-  const lastActivityRef = useRef(Date.now());
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    toast.warn("Logged out due to inactivity or connection loss");
-    navigate('/login');
-  };
-
-  const resetTimeout = () => {
-    clearTimeout(timeoutRef.current);
-    clearTimeout(warningRef.current);
-
-    timeoutRef.current = setTimeout(() => {
-      logout();
-    }, 10 * 60 * 1000); // 10 minutes
-
-    warningRef.current = setTimeout(() => {
-      toast.warn("You will be logged out soon due to inactivity");
-    }, 9 * 60 * 1000); // 9 minutes
-  };
-
-  const handleActivity = () => {
-    lastActivityRef.current = Date.now();
-    resetTimeout();
-  };
-
-  const checkBackendConnection = async () => {
-    try {
-      const response = await fetch('/api/status'); // Replace with actual API endpoint
-      if (!response.ok) {
-        throw new Error('Connection failed');
-      }
-    } catch (error) {
-      logout();
-    }
-  };
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    let timeout, warningTimeout;
+
+    const resetTimeout = () => {
+      clearTimeout(timeout);
+      clearTimeout(warningTimeout);
+
+      warningTimeout = setTimeout(() => {
+        setOpen(true);
+        timeout = setTimeout(() => {
+          localStorage.removeItem('user');
+          navigate('/login');
+        }, 5 * 60 * 1000); // 5 minutes after warning
+      }, 5 * 60 * 1000); // 5 minutes of inactivity
+    };
+
+    const handleActivity = () => {
+      setOpen(false);
+      resetTimeout();
+    };
+
     window.addEventListener('mousemove', handleActivity);
     window.addEventListener('keydown', handleActivity);
 
     resetTimeout();
 
-    const backendCheckInterval = setInterval(checkBackendConnection, 60 * 1000); // 1 minute
-
     return () => {
+      clearTimeout(timeout);
+      clearTimeout(warningTimeout);
       window.removeEventListener('mousemove', handleActivity);
       window.removeEventListener('keydown', handleActivity);
-      clearTimeout(timeoutRef.current);
-      clearTimeout(warningRef.current);
-      clearInterval(backendCheckInterval);
     };
-  }, []);
+  }, [navigate]);
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      const isConnected = await checkBackendConnection();
+      if (!isConnected) {
+        localStorage.removeItem('user');
+        navigate('/connection-snapped');
+      }
+    };
+
+    const interval = setInterval(checkConnection, 60 * 1000); // Check every 1 minute
+
+    return () => clearInterval(interval);
+  }, [navigate]);
 
   return <>{children}</>;
 };

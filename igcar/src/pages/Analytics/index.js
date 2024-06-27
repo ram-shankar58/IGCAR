@@ -25,7 +25,6 @@ const Analytics = () => {
           </CardContent>
         </Card>
       </Box>
-      <Footer />
     </Layout>
   );
 };

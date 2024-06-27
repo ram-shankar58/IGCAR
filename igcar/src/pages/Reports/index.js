@@ -44,7 +44,6 @@ const Reports = () => {
           </CardContent>
         </Card>
       </Box>
-      <Footer />
     </Layout>
   );
 };

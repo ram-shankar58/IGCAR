@@ -80,7 +80,7 @@ const Home = () => {
       const isConnected = await checkBackendConnection();
       if (!isConnected) {
         localStorage.removeItem('user');
-        navigate('/login');
+        navigate('/connection-snapped'); // Redirect to connection-snapped page if not connected
       }
     };
 

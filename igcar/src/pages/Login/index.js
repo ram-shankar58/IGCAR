@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; 
 import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
-import bcrypt from 'bcryptjs';
+import { loginUser } from '../../utils/APIRequest';  // Import loginUser
 
 const Login = () => {
     const navigate = useNavigate();
@@ -40,24 +40,17 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const { email, password } = values;
         setLoading(true);
 
         try {
-            const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-            const user = registeredUsers.find(user => user.email === email);
-
-            if (user && bcrypt.compareSync(password, user.password)) {
-                localStorage.setItem("user", JSON.stringify(user));
-                navigate("/");
-                toast.success("Login successful!", toastOptions);
-            } else {
-                toast.error("Invalid email or password", toastOptions);
-            }
+            const user = await loginUser(email, password);
+            localStorage.setItem("user", JSON.stringify(user));
+            navigate("/");
+            toast.success("Login successful!", toastOptions);
         } catch (error) {
             console.error('Login error:', error);
-            toast.error("An error occurred. Please try again.", toastOptions);
+            toast.error("Invalid email or password", toastOptions);
         } finally {
             setLoading(false);
         }

@@ -32,7 +32,6 @@ const Settings = () => {
           </CardContent>
         </Card>
       </Box>
-      <Footer />
     </Layout>
   );
 };

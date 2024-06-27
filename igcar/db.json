@@ -1,6 +1,64 @@
 {
-    "users": [
-      { "id": 1, "name": "John Doe", "email": "john@example.com", "password": "password123" }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "test1@test.com",
+      "password": "test1",
+      "designation": "A"
+    },
+    {
+      "id": "a8b2",
+      "name": "test4",
+      "email": "test4@test.com",
+      "password": "$2a$10$wD5GpWbi.TQ7XnhsD/BZxemprOGB3FLKf8hvDLI1qMxCBA6/lSYIG",
+      "designation": "G"
+    },
+    {
+      "id": "c188",
+      "name": "check",
+      "email": "check5@check.com",
+      "password": "$2a$10$d55yGEvORU3iKi7kAj40heJ1gChOZSyL9gQ7YQdr0myJZfX36uqsu",
+      "designation": "A"
+    },
+    {
+      "id": "2916",
+      "name": "check",
+      "email": "check2@check.com",
+      "password": "$2a$10$AZ5xSGGcDf58h/ooRaFM9uT3ilso.MBbtEBA4MN3aKrih/hIqtmia",
+      "designation": "A"
+    },
+    {
+      "id": "0062",
+      "name": "test6",
+      "email": "test6@test.com",
+      "password": "$2a$10$brlWY9A41qAAigKAH3cZN..3vFAm56KhFqeexjbgXBQkuqUGV9MLq",
+      "designation": "G"
+    },
+    {
+      "id": "66ec",
+      "name": "check",
+      "email": "check3@check.com",
+      "password": "$2a$10$9qMqB.hsmjuy5KcMwBNLt.MaIL7VGaJqjWJLkjJNTjK6J283vC2gy",
+      "designation": "A"
+    }
+  ],
+  "errors": [
+    {
+      "errorCode": 404,
+      "errorMessage": "Not Found Error",
+      "id": "1687"
+    },
+    {
+      "errorCode": 500,
+      "errorMessage": "Internal Server Error",
+      "id": "6c0f"
+    },
+    {
+      "errorCode": 503,
+      "errorMessage": "Service Unavailable",
+      "id": "a25a"
+    }
+  ],
+  "status": "Server is running"
+}

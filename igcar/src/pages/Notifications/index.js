@@ -26,7 +26,6 @@ const Notifications = () => {
           </ListItem>
         </List>
       </Box>
-      <Footer />
     </Layout>
   );
 };

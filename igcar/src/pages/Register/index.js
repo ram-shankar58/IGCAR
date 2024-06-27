@@ -1,3 +1,4 @@
+// src/pages/Register/index.js
 import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -6,9 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ParticlesBg from 'particles-bg';
 import NeonCard from '../../components/NeonCard';
-import Header from '../../components/Header';
 import InitialLayout from '../../layouts/InitialLayout';
 import bcrypt from 'bcryptjs';
+import { registerUser } from '../../utils/APIRequest';
 
 const DarkNeonBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #0f0c29, #302b63, #24243e)',
@@ -78,22 +79,13 @@ const Register = () => {
     const { name, email, password, designation } = values;
 
     try {
-      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-      const userExists = registeredUsers.some(user => user.email === email);
-
-      if (userExists) {
-        toast.error("Email already registered", toastOptions);
-      } else {
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        const newUser = { name, email, password: hashedPassword, designation };
-        registeredUsers.push(newUser);
-        localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
-        toast.success("Registration successful!", toastOptions);
-        navigate("/login");
-      }
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      await registerUser({ name, email, password, designation });
+      toast.success("Registration successful!", toastOptions);
+      navigate("/login");
     } catch (error) {
       console.error('Registration error:', error);
-      toast.error("An error occurred. Please try again.", toastOptions);
+      toast.error(error.message, toastOptions);
     }
   };
 

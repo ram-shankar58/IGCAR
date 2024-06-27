@@ -1,0 +1,11 @@
+[
+    { "code": "INVALID_CREDENTIALS", "message": "Invalid email or password" },
+    { "code": "USER_NOT_FOUND", "message": "User not found" },
+    { "code": "CONNECTION_LOST", "message": "Connection to the server is lost. Please try again later." },
+    [
+        { "code": "EMPTY_FIELDS", "message": "Please fill in all fields" },
+        { "code": "EMAIL_ALREADY_REGISTERED", "message": "Email is already registered" }
+    ]
+      
+  ]
+  

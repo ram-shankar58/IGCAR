@@ -44,7 +44,6 @@ const Profile = () => {
           </Grid>
         </Grid>
       </Box>
-      <Footer />
     </Layout>
   );
 };
