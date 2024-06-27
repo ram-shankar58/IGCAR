@@ -1,120 +1,120 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Box, TextField, Button, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Login.css'; 
-import Header from '../../components/Header';
+import './Login.css';
 import InitialLayout from '../../layouts/InitialLayout';
-import { loginUser } from '../../utils/APIRequest';  // Import loginUser
+import { loginUser } from '../../store/authSlice';
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, status, error } = useSelector((state) => state.auth);
+  const [values, setValues] = useState({ email: '', password: '' });
 
-    useEffect(() => {
-        if (localStorage.getItem("user")) {
-            navigate("/");
-        }
-    }, [navigate]);
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
-    });
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
-    const handleChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(loginUser(values));
+  };
 
-    const toastOptions = {
-        position: "bottom-right",
+  useEffect(() => {
+    if (status === 'succeeded') {
+      toast.success('Login successful!', {
+        position: 'bottom-right',
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "light",
-    };
+        theme: 'light',
+      });
+      navigate('/');
+    } else if (status === 'failed') {
+      toast.error(error, {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  }, [status, error, navigate]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const { email, password } = values;
-        setLoading(true);
-
-        try {
-            const user = await loginUser(email, password);
-            localStorage.setItem("user", JSON.stringify(user));
-            navigate("/");
-            toast.success("Login successful!", toastOptions);
-        } catch (error) {
-            console.error('Login error:', error);
-            toast.error("Invalid email or password", toastOptions);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            <InitialLayout />
-            <Box className="background-container">
-                <Container maxWidth="sm" sx={{ mt: 8 }}>
-                    <Box className="complex-box">
-                        <Typography variant="h4" component="h1" gutterBottom className="complex-text">
-                            Login
-                        </Typography>
-                        <form onSubmit={handleSubmit}>
-                            <TextField
-                                fullWidth
-                                margin="normal"
-                                label="Email Address"
-                                name="email"
-                                type="email"
-                                onChange={handleChange}
-                                value={values.email}
-                                className="complex-input"
-                            />
-                            <TextField
-                                fullWidth
-                                margin="normal"
-                                label="Password"
-                                name="password"
-                                type="password"
-                                onChange={handleChange}
-                                value={values.password}
-                                className="complex-input"
-                            />
-                            <Button
-                                fullWidth
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                sx={{ mt: 3 }}
-                                disabled={loading}
-                                className="complex-button"
-                            >
-                                {loading ? 'Signing in…' : 'Login'}
-                            </Button>
-                            <Box sx={{ mt: 2 }}>
-                                <Link to="/forgotPassword" className="complex-link">
-                                    Forgot Password?
-                                </Link>
-                            </Box>
-                            <Box sx={{ mt: 2 }}>
-                                Don't Have an Account?{' '}
-                                <Link to="/register" className="complex-link">
-                                    Register
-                                </Link>
-                            </Box>
-                        </form>
-                    </Box>
-                </Container>
-                <ToastContainer />
-            </Box>
-        </>
-    );
+  return (
+    <>
+      <InitialLayout />
+      <Box className="background-container">
+        <Container maxWidth="sm" sx={{ mt: 8 }}>
+          <Box className="complex-box">
+            <Typography variant="h4" component="h1" gutterBottom className="complex-text">
+              Login
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Email Address"
+                name="email"
+                type="email"
+                onChange={handleChange}
+                value={values.email}
+                className="complex-input"
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Password"
+                name="password"
+                type="password"
+                onChange={handleChange}
+                value={values.password}
+                className="complex-input"
+              />
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3 }}
+                disabled={status === 'loading'}
+                className="complex-button"
+              >
+                {status === 'loading' ? 'Signing in…' : 'Login'}
+              </Button>
+              <Box sx={{ mt: 2 }}>
+                <Link to="/forgotPassword" className="complex-link">
+                  Forgot Password?
+                </Link>
+              </Box>
+              <Box sx={{ mt: 2 }}>
+                Don't Have an Account?{' '}
+                <Link to="/register" className="complex-link">
+                  Register
+                </Link>
+              </Box>
+            </form>
+          </Box>
+        </Container>
+        <ToastContainer />
+      </Box>
+    </>
+  );
 };
 
 export default Login;

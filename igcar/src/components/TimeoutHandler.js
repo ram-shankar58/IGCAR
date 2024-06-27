@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkBackendConnection } from '../utils/APIRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkConnection, logout } from '../store/authSlice';
 
 const TimeoutHandler = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isConnected } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -16,7 +19,7 @@ const TimeoutHandler = ({ children }) => {
       warningTimeout = setTimeout(() => {
         setOpen(true);
         timeout = setTimeout(() => {
-          localStorage.removeItem('user');
+          dispatch(logout());
           navigate('/login');
         }, 5 * 60 * 1000); // 5 minutes after warning
       }, 5 * 60 * 1000); // 5 minutes of inactivity
@@ -38,21 +41,22 @@ const TimeoutHandler = ({ children }) => {
       window.removeEventListener('mousemove', handleActivity);
       window.removeEventListener('keydown', handleActivity);
     };
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   useEffect(() => {
-    const checkConnection = async () => {
-      const isConnected = await checkBackendConnection();
-      if (!isConnected) {
-        localStorage.removeItem('user');
-        navigate('/connection-snapped');
-      }
-    };
-
-    const interval = setInterval(checkConnection, 60 * 1000); // Check every 1 minute
+    const interval = setInterval(() => {
+      dispatch(checkConnection());
+    }, 60 * 1000); // Check every 1 minute
 
     return () => clearInterval(interval);
-  }, [navigate]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      dispatch(logout());
+      navigate('/connection-snapped');
+    }
+  }, [isConnected, navigate, dispatch]);
 
   return <>{children}</>;
 };
