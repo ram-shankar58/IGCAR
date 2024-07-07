@@ -7,9 +7,7 @@ const columns = [
   { field: 'serialNo', headerName: 'Serial No.', width: 100, type: 'sno' },
   { field: 'rollNo', headerName: 'Roll No.', width: 130, type: 'number' },
   { field: 'studentName', headerName: 'Student Name', width: 200, type: 'string' },
-  {
-    field: 'division', headerName: 'Division', width: 150, type: 'string', filterOptions: ['A', 'B', 'C']
-  },
+  { field: 'division', headerName: 'Division', width: 150, type: 'string', filterOptions: ['A', 'B', 'C'] },
   { field: 'maths', headerName: 'Maths Marks', width: 150, type: 'number' },
   { field: 'science', headerName: 'Science Marks', width: 150, type: 'number' },
   { field: 'english', headerName: 'English Marks', width: 150, type: 'number' },

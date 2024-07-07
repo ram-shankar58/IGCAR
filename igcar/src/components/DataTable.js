@@ -1,151 +1,131 @@
-import React, { useState, useMemo } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { Box, Checkbox, MenuItem, Menu, FormControlLabel, IconButton } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import './DataTable.css'; // Assuming you have a CSS file for custom styles
+// src/components/DataTable.js
+import React, { useState, useRef } from 'react';
+import './DataTable.css';
+import 'bulma/css/bulma.css';
 
 const DataTable = ({ columns, rows }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [filterColumn, setFilterColumn] = useState(null);
-  const [filterValues, setFilterValues] = useState({});
-  const open = Boolean(anchorEl);
+  const [filterOptions, setFilterOptions] = useState({});
+  const [sortConfig, setSortConfig] = useState(null);
+  const [activeFilterColumn, setActiveFilterColumn] = useState(null);
+  const filterRef = useRef(null);
+  const [filterPosition, setFilterPosition] = useState({ top: 0, left: 0 });
 
-  const handleFilterClick = (event, column) => {
-    setAnchorEl(event.currentTarget);
-    setFilterColumn(column);
+  const handleSort = (column) => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === column.field && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key: column.field, direction });
   };
 
-  const handleFilterChange = (value, column) => {
-    setFilterValues((prev) => ({
-      ...prev,
-      [column.field]: value,
+  const sortedRows = [...rows].sort((a, b) => {
+    if (sortConfig) {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+    }
+    return 0;
+  });
+
+  const handleFilterChange = (field, type, value) => {
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      [field]: {
+        ...prevOptions[field],
+        [type]: value,
+      },
     }));
   };
 
-  const handleCheckboxChange = (checked, option, column) => {
-    setFilterValues((prev) => {
-      const prevValues = prev[column.field] || [];
-      let updatedValues = [];
-      if (checked) {
-        updatedValues = [...prevValues, option];
-      } else {
-        updatedValues = prevValues.filter((value) => value !== option);
-      }
-      return {
-        ...prev,
-        [column.field]: updatedValues,
-      };
-    });
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setFilterColumn(null);
-  };
-
-  const filteredRows = useMemo(() => {
+  const applyFilter = (rows) => {
     return rows.filter((row) => {
-      return Object.entries(filterValues).every(([column, values]) => {
-        if (!values || values.length === 0) return true;
-        const cellValue = row[column] ? row[column].toString().toLowerCase() : '';
-        return values.some((value) => cellValue.includes(value.toLowerCase()));
+      return columns.every((column) => {
+        const filter = filterOptions[column.field];
+        if (!filter) return true;
+
+        const { text, min, max } = filter;
+        const cellValue = row[column.field].toString().toLowerCase();
+
+        let isValid = true;
+        if (text && !cellValue.includes(text.toLowerCase())) isValid = false;
+        if (min && parseFloat(cellValue) < parseFloat(min)) isValid = false;
+        if (max && parseFloat(cellValue) > parseFloat(max)) isValid = false;
+
+        return isValid;
       });
     });
-  }, [rows, filterValues]);
+  };
 
-  const enhancedColumns = useMemo(() => {
-    return columns.map((column) => ({
-      ...column,
-      headerClassName: 'highlight-header',
-      renderHeader: (params) => (
-        <Box display="flex" alignItems="center">
-          {column.filterOptions && (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              <IconButton onClick={(event) => handleFilterClick(event, column)} size="small">
-                <FilterListIcon fontSize="small" />
-              </IconButton>
-              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                {filterColumn === column && (
-                  <>
-                    <MenuItem>
-                      <input
-                        type="text"
-                        value={filterValues[column.field] || ''}
-                        onChange={(event) => handleFilterChange(event.target.value, column)}
-                        placeholder={`Filter ${column.headerName}`}
-                      />
-                    </MenuItem>
-                    {column.filterOptions.map((option) => (
-                      <MenuItem key={option}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                filterValues[column.field]?.includes(option) || false
-                              }
-                              onChange={(event) =>
-                                handleCheckboxChange(
-                                  event.target.checked,
-                                  option,
-                                  column
-                                )
-                              }
-                            />
-                          }
-                          label={option}
-                        />
-                      </MenuItem>
-                    ))}
-                  </>
-                )}
-              </Menu>
-            </div>
-          )}
-          <span>{params.colDef.headerName}</span>
-        </Box>
-      ),
-      disableColumnMenu: true, // Disable the default column menu
-    }));
-  }, [
-    columns,
-    filterColumn,
-    filterValues,
-    handleFilterClick,
-    handleFilterChange,
-    handleCheckboxChange,
-    anchorEl,
-    open,
-    handleClose,
-  ]);
+  const filteredRows = applyFilter(sortedRows);
 
-  const rowsWithSerialNo = useMemo(() => {
-    return rows.map((row, index) => ({ ...row, serialNo: index + 1 }));
-  }, [rows]);
+  const handleHeaderClick = (column, event) => {
+    const rect = event.target.getBoundingClientRect();
+    setFilterPosition({ top: rect.top + window.scrollY, left: rect.right + window.scrollX });
+    setActiveFilterColumn(column.field);
+  };
 
   return (
-    <Box>
-      <DataGrid
-        columns={enhancedColumns}
-        rows={filteredRows.length ? filteredRows : rowsWithSerialNo}
-        pageSize={5}
-        autoHeight
-        components={{
-          NoRowsOverlay: () => (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              {filteredRows.length === 0 && <span>No records found.</span>}
-            </div>
-          ),
-        }}
-      />
-    </Box>
+    <div className="table-container">
+      <table className="table is-striped is-hoverable">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th
+                key={column.field}
+                onClick={(event) => handleHeaderClick(column, event)}
+              >
+                {column.headerName}
+                {sortConfig && sortConfig.key === column.field && (
+                  <span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>
+                )}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {filteredRows.map((row) => (
+            <tr key={row.id}>
+              {columns.map((column) => (
+                <td key={column.field}>{row[column.field]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {activeFilterColumn && (
+        <div className="filter-popup" ref={filterRef} style={{ top: filterPosition.top, left: filterPosition.left }}>
+          <input
+            type="text"
+            placeholder="Text filter"
+            value={filterOptions[activeFilterColumn]?.text || ''}
+            onChange={(e) => handleFilterChange(activeFilterColumn, 'text', e.target.value)}
+            className="input is-small"
+          />
+          {columns.find(col => col.field === activeFilterColumn)?.type === 'number' && (
+            <>
+              <input
+                type="number"
+                placeholder="Min"
+                value={filterOptions[activeFilterColumn]?.min || ''}
+                onChange={(e) => handleFilterChange(activeFilterColumn, 'min', e.target.value)}
+                className="input is-small"
+              />
+              <input
+                type="number"
+                placeholder="Max"
+                value={filterOptions[activeFilterColumn]?.max || ''}
+                onChange={(e) => handleFilterChange(activeFilterColumn, 'max', e.target.value)}
+                className="input is-small"
+              />
+            </>
+          )}
+          <button className="button is-small" onClick={() => setActiveFilterColumn(null)}>Close</button>
+        </div>
+      )}
+    </div>
   );
 };
 
