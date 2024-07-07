@@ -1,31 +1,35 @@
+// src/pages/Notifications.js
 import React from 'react';
-import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
 import Layout from '../../layouts/Layout';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import DataTable from '../../components/DataTable';
+
+const columns = [
+  { field: 'serialNo', headerName: 'Serial No.', width: 100, type: 'sno' },
+  { field: 'rollNo', headerName: 'Roll No.', width: 130, type: 'number' },
+  { field: 'studentName', headerName: 'Student Name', width: 200, type: 'string' },
+  {
+    field: 'division', headerName: 'Division', width: 150, type: 'string', filterOptions: ['A', 'B', 'C']
+  },
+  { field: 'maths', headerName: 'Maths Marks', width: 150, type: 'number' },
+  { field: 'science', headerName: 'Science Marks', width: 150, type: 'number' },
+  { field: 'english', headerName: 'English Marks', width: 150, type: 'number' },
+];
+
+const rows = [
+  { id: 1, rollNo: '1001', studentName: 'Ram', division: 'A', maths: 85, science: 90, english: 78 },
+  { id: 2, rollNo: '1002', studentName: 'Shyam', division: 'B', maths: 92, science: 87, english: 82 },
+  { id: 3, rollNo: '1003', studentName: 'Varun', division: 'A', maths: 75, science: 80, english: 88 },
+  { id: 4, rollNo: '1004', studentName: 'Sundar', division: 'C', maths: 88, science: 85, english: 79 },
+  { id: 5, rollNo: '1005', studentName: 'Krishna', division: 'B', maths: 90, science: 91, english: 85 },
+];
 
 const Notifications = () => {
   return (
     <Layout>
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h3" gutterBottom>
-          Notifications
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Stay informed with real-time updates about your account activities and important events in IGCAR.
-        </Typography>
-        <List>
-          <ListItem>
-            <ListItemText primary="New message received" secondary="Received a new message from a client." />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Project deadline approaching" secondary="Reminder: Project XYZ deadline is approaching." />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="System maintenance schedule" secondary="Scheduled maintenance on July 15th, 2024, at 10:00 PM." />
-          </ListItem>
-        </List>
-      </Box>
+      <div>
+        <h1>Notifications</h1>
+        <DataTable columns={columns} rows={rows} />
+      </div>
     </Layout>
   );
 };

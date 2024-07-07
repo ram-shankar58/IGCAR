@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Box className="footer">
       <Typography variant="body2" color="textSecondary" align="center">
-        © {new Date().getFullYear()} MyApp. All rights reserved.
+        © {new Date().getFullYear()} IGCAR. All rights reserved.
       </Typography>
     </Box>
   );

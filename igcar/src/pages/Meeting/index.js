@@ -1,132 +1,59 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Container, Box, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+// src/pages/meetings/index.js
+import React, { useState } from 'react';
+import { Container, Typography, Box, Button } from '@mui/material';
 import Layout from '../../layouts/Layout';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Videocam, VideocamOff, Mic, MicOff } from '@material-ui/icons';
+import CreateMeeting from '../../components/CreateMeeting';
+import JoinMeeting from '../../components/JoinMeeting';
+import MeetingRoom from '../../components/MeetingRoom';
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#ff3d00',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: '#d50000',
-  },
-  margin: theme.spacing(1),
-  borderRadius: '50%', // Circular shape
-  width: '64px', // Adjust size as needed
-  height: '64px', // Adjust size as needed
-  minWidth: 0, // Ensure minimal width for circular button
-}));
+const MeetingsPage = () => {
+  const [meetingCode, setMeetingCode] = useState(null);
+  const [participants, setParticipants] = useState([]);
 
-const VideoContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  width: '100%',
-  height: '500px',
-  backgroundColor: '#1c1c1c',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginBottom: theme.spacing(2),
-}));
-
-const SavePhotoButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#4caf50',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: '#388e3c',
-  },
-  marginTop: theme.spacing(2),
-  borderRadius: '5px', // Rounded corners
-  padding: theme.spacing(1, 2),
-}));
-
-const Meeting = () => {
-  const [stream, setStream] = useState(null);
-  const [isCameraOn, setIsCameraOn] = useState(false);
-  const [isMicOn, setIsMicOn] = useState(false);
-  const videoRef = useRef(null);
-  const [hasPhoto, setHasPhoto] = useState(false);
-  const canvasRef = useRef(null);
-
-  const takePhoto = () => {
-    const width = 320;
-    const height = 240;
-    let video = videoRef.current;
-    let canvas = canvasRef.current;
-    canvas.width = width;
-    canvas.height = height;
-    let context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, width, height);
-    setHasPhoto(true);
+  const handleMeetingCreated = (code) => {
+    setMeetingCode(code);
   };
 
-  const savePhoto = () => {
-    let canvas = canvasRef.current;
-    const image = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = image;
-    link.download = 'photo.png';
-    link.click();
+  const handleMeetingJoined = (code) => {
+    setMeetingCode(code);
   };
 
-  useEffect(() => {
-    if (isCameraOn) {
-      navigator.mediaDevices.getUserMedia({ video: true, audio: isMicOn })
-        .then(stream => {
-          setStream(stream);
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch(error => {
-          console.error('Error accessing media devices.', error);
-          toast.error('Error accessing media devices! Please give the permissions to access media devices');
-        });
-    } else {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        setStream(null);
-      }
-    }
-  }, [isCameraOn, isMicOn]);
-
-  const handleCameraToggle = () => {
-    setIsCameraOn(prevState => !prevState);
+  const handleParticipantJoin = (participant) => {
+    setParticipants(prevParticipants => [...prevParticipants, participant]);
   };
 
-  const handleMicToggle = () => {
-    setIsMicOn(prevState => !prevState);
+  const handleParticipantLeave = (participant) => {
+    setParticipants(prevParticipants =>
+      prevParticipants.filter(p => p !== participant)
+    );
+  };
+
+  const handleLeaveCall = () => {
+    setMeetingCode(null); // Reset meeting code to leave the call
   };
 
   return (
-    <>
-      <Layout>
-        <Container>
-          <Typography variant="h4" gutterBottom>
-            Meeting
-          </Typography>
-          <VideoContainer>
-            {isCameraOn ? <video ref={videoRef} autoPlay style={{ width: '100%', height: '100%' }} /> : <Typography variant="h6" color="white">Camera is off</Typography>}
-          </VideoContainer>
-          <Box display="flex" justifyContent="center">
-            <StyledButton onClick={handleCameraToggle}>
-              {isCameraOn ? <Videocam /> : <VideocamOff />}
-            </StyledButton>
-            <StyledButton onClick={handleMicToggle} disabled={!isCameraOn}>
-              {isMicOn ? <Mic /> : <MicOff />}
-            </StyledButton>
-            <StyledButton onClick={takePhoto}>Take Photo</StyledButton>
-            <div className={'result' + (hasPhoto ? ' hasPhoto' : '')}>
-              <canvas ref={canvasRef}></canvas>
-              {hasPhoto && <SavePhotoButton onClick={savePhoto}>Save Photo</SavePhotoButton>}
-            </div>
+    <Layout>
+      <Container>
+        
+        {!meetingCode ? (
+          <Box display="flex" justifyContent="space-around" marginBottom={4}>
+            <CreateMeeting onMeetingCreated={handleMeetingCreated} />
+            <JoinMeeting onMeetingJoined={handleMeetingJoined} />
           </Box>
-          <ToastContainer />
-        </Container>
-      </Layout>
-    </>
+        ) : (
+          <>
+            <MeetingRoom meetingCode={meetingCode} onParticipantJoin={handleParticipantJoin} onParticipantLeave={handleParticipantLeave} />
+            <Box display="flex" justifyContent="center" marginTop={4}>
+              <Button variant="contained" color="secondary" onClick={handleLeaveCall}>
+                Leave Call
+              </Button>
+            </Box>
+          </>
+        )}
+      </Container>
+    </Layout>
   );
 };
 
-export default Meeting;
+export default MeetingsPage;

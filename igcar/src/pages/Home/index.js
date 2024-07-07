@@ -3,7 +3,7 @@ import { Box, Typography, Grid, Card, CardContent, Link as MuiLink, Dialog, Dial
 import { Link, useNavigate } from 'react-router-dom';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Layout from '../../layouts/Layout';
-import { checkBackendConnection } from '../../utils/APIRequest'; // Import the function from APIRequest.js
+import { checkBackendConnection } from '../../utils/APIRequest'; 
 import './Home.css';
 
 const data = [
@@ -80,11 +80,11 @@ const Home = () => {
       const isConnected = await checkBackendConnection();
       if (!isConnected) {
         localStorage.removeItem('user');
-        navigate('/connection-snapped'); // Redirect to connection-snapped page if not connected
+        navigate('/connection-snapped'); 
       }
     };
 
-    const interval = setInterval(checkConnection, 60 * 1000); // Check every 1 minute
+    const interval = setInterval(checkConnection, 60 * 1000); 
 
     return () => clearInterval(interval);
   }, [navigate]);

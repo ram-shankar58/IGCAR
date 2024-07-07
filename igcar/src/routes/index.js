@@ -12,7 +12,7 @@ import PermissionDenied from '../components/PermissionDenied';
 import TimeoutHandler from '../components/TimeoutHandler';
 import Meeting from '../pages/Meeting';
 import ErrorPage from '../pages/Error';
-import ConnectionSnapped from '../pages/ConnectionSnapped'; // Import ConnectionSnapped
+import ConnectionSnapped from '../pages/ConnectionSnapped';
 
 const ProtectedRoute = ({ children, allowedDesignations }) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -42,8 +42,8 @@ const AppRoutes = () => {
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route 
             path="/analytics" 
-            element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics /></ProtectedRoute>} 
-          />
+            element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics pdfUrl="http://localhost:3001/details"  /></ProtectedRoute>} 
+            />
           <Route path="/meeting" element={<ProtectedRoute><Meeting /></ProtectedRoute>} />
           <Route path="/permission-denied" element={<PermissionDenied />} />
           <Route path="/error/:code" element={<ErrorPage />} />

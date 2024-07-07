@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Prevent text selection and pointer events */
+/* div {
+  user-select: none;
+  pointer-events: none;
+} */
+

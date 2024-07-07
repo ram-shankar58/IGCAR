@@ -1,4 +1,3 @@
-// src/store/reducers/statusReducer.js
 const initialState = {
     isConnected: true,
   };

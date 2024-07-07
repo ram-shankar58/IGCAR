@@ -19,10 +19,10 @@ const InitialLayout = ({children}) => {
     <>
     <InitHeader />
     
-    <StyledDiv>
-      <h5>Welcome to the IGCAR website!</h5>
+    
+      {/* <h5>Welcome to the IGCAR website!</h5> */}
       {children}
-    </StyledDiv>
+   
     
     </>
   );
