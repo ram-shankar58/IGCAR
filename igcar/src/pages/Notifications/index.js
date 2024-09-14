@@ -25,7 +25,8 @@ const Notifications = () => {
   return (
     <Layout>
       <div>
-        <h1>Notifications</h1>
+        <h1>Notifications Table for marks</h1>
+        <br />
         <DataTable columns={columns} rows={rows} />
       </div>
     </Layout>

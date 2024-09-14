@@ -3,6 +3,8 @@ import { Box, Typography, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Videocam, VideocamOff, Mic, MicOff } from '@material-ui/icons';
 import { Button } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#ff3d00',
@@ -70,7 +72,23 @@ const MeetingRoom = ({ meetingCode }) => {
   };
 
   const handleCameraToggle = () => {
-    setIsCameraOn(prevState => !prevState);
+    if (isCameraOn) {
+      setIsCameraOn(false);
+      setStream(null);
+    } else {
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then((mediaStream) => {
+          setStream(mediaStream);
+          if (videoRef.current) {
+            videoRef.current.srcObject = mediaStream;
+          }
+          setIsCameraOn(true);
+        })
+        .catch((error) => {
+          console.error('Error accessing media devices:', error);
+          toast.error('Failed to access camera and microphone.');
+        });
+    }
   };
 
   const handleMicToggle = () => {
@@ -109,13 +127,13 @@ const MeetingRoom = ({ meetingCode }) => {
         </div>
       </Box>
       <Box mt={4}>
-        
         <ul>
           {participants.map((participant, index) => (
             <li key={index}>{participant.name}</li>
           ))}
         </ul>
       </Box>
+      <ToastContainer />
     </>
   );
 };

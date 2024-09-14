@@ -1,50 +1,77 @@
 /* src/components/DataTable.css */
-
 .table-container {
-  position: relative;
-  margin: 20px;
+  display: flex;
+  align-items: flex-start;
 }
 
-.table th {
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-  position: relative;
-}
-
-.table th:hover {
-  background-color: #388e3c;
-}
-
-.table td {
-  padding: 10px;
-}
-
-.input.is-small {
-  width: 100%;
-  box-sizing: border-box;
+.filter-sidebar {
+  width: 250px; /* Adjust width as needed */
+  margin-right: 20px;
 }
 
 .filter-popup {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ddd;
+  background: #f0f0f0;
+  border: 1px solid #007BFF;
   padding: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  width: 200px;
+  border-radius: 5px;
 }
 
-.filter-popup input {
-  margin-bottom: 10px;
+.filter-popup .input {
+  margin-bottom: 5px;
+  border: 1px solid #007BFF;
 }
 
 .filter-popup .button {
-  margin-bottom: 5px;
+  display: block;
+  margin-top: 5px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.footer {
-  background-color: #f8f9fa;
-  padding: 20px;
-  text-align: center;
+.filter-popup .button:hover {
+  background-color: #0056b3;
+}
+
+.table-wrapper {
+  flex-grow: 1;
+}
+
+.table {
+  border: 2px solid #007BFF;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.table th {
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px;
+  border: 1px solid #0056b3;
+}
+
+.table th:hover {
+  background-color: #0056b3;
+}
+
+.table td {
+  border: 1px solid #007BFF;
+  padding: 10px;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #e6f7ff;
+}
+
+.table tr:hover {
+  background-color: #d0e7ff;
 }

@@ -1,3 +1,4 @@
+// src/routes/index.js
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
@@ -42,12 +43,12 @@ const AppRoutes = () => {
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route 
             path="/analytics" 
-            element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics pdfUrl="http://localhost:3001/details"  /></ProtectedRoute>} 
-            />
+            element={<ProtectedRoute allowedDesignations={['E', 'F', 'G']}><Analytics pdfUrl="http://localhost:3001/details" /></ProtectedRoute>} 
+          />
           <Route path="/meeting" element={<ProtectedRoute><Meeting /></ProtectedRoute>} />
           <Route path="/permission-denied" element={<PermissionDenied />} />
           <Route path="/error/:code" element={<ErrorPage />} />
-          <Route path="/connection-snapped" element={<ConnectionSnapped />} /> {/* Add this route */}
+          <Route path="/connection-snapped" element={<ConnectionSnapped />} />
         </Routes>
       </TimeoutHandler>
     </BrowserRouter>

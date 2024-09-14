@@ -1,6 +1,12 @@
 {
-    "users": [
-      { "id": 1, "name": "John Doe", "email": "john@example.com", "password": "password123" }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "ffb6",
+      "name": "check",
+      "email": "check2@check.com",
+      "password": "$2a$10$ANrn4UzvqzyjVdzYNmpoLeX0IKbm6.kUWvH73p5yn/mAm.A.u18uW",
+      "designation": "A"
+    }
+  ],
+  "status": "Server is running"
+}

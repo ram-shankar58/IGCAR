@@ -6,6 +6,7 @@
   .title {
     flex-grow: 1;
     font-weight: bold;
+    color:white;
   }
   
   .header a {
@@ -17,4 +18,8 @@
   .header button {
     font-size: 14px;
   }
-  
+  :root {
+    --bulma-primary-h: 210deg;
+    --bulma-primary-s: 79%;
+    --bulma-primary-l: 46%;
+  }
